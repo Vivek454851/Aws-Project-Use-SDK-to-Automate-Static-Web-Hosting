@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rangoli Art Showcase – Celebrate India's Vibrant Art</title>
+  <meta name="description" content="Explore stunning Rangoli designs from across India. Browse traditional, modern, floral, and festival Rangoli art in our premium gallery." />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            saffron: '#f97316',
+            deepPurple: '#0d0714',
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="dark:bg-[#0d0714] bg-[#fdf6ff]">
+
+<!-- ═══════════ LOADING SCREEN ═══════════ -->
+<div id="loader">
+  <div class="text-center">
+    <div class="loader-ring mx-auto mb-4"></div>
+    <p class="text-orange-400 font-semibold tracking-widest text-sm uppercase">Loading…</p>
+  </div>
+</div>
+
+<!-- ═══════════ BACK TO TOP ═══════════ -->
+<button id="backToTop" aria-label="Back to top" class="opacity-0 pointer-events-none">
+  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+  </svg>
+</button>
+
+<!-- ═══════════ LIGHTBOX ═══════════ -->
+<div id="lightbox" class="hidden">
+  <div class="relative max-w-2xl w-full mx-auto text-center">
+    <button id="closeLightbox" class="absolute -top-12 right-0 text-white/70 hover:text-white text-3xl font-light leading-none">&times;</button>
+    <img id="lightboxImg" src="" alt="" class="w-full" />
+    <div class="mt-4">
+      <h3 id="lightboxTitle" class="text-white text-lg font-semibold"></h3>
+      <p id="lightboxDesc" class="text-white/60 text-sm mt-1"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ NAVBAR ═══════════ -->
+<nav id="navbar" class="py-4 px-6 transition-all duration-300">
+  <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#f97316,#a855f7)">🪷</div>
+      <span class="font-bold text-lg dark:text-white text-purple-900 font-['Playfair_Display']">Rangoli<span class="text-orange-400">Art</span></span>
+    </a>
+    <!-- Desktop Nav -->
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#categories" class="nav-link">Categories</a>
+      <a href="#videos" class="nav-link">Videos</a>
+      <a href="#featured" class="nav-link">Featured</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </div>
+    <!-- Right Controls -->
+    <div class="flex items-center gap-3">
+      <button id="themeToggle" class="w-9 h-9 rounded-full border dark:border-orange-500/30 border-purple-300 flex items-center justify-center dark:text-orange-300 text-purple-700 dark:hover:bg-orange-500/10 hover:bg-purple-100 transition-all" aria-label="Toggle theme"></button>
+      <button id="menuBtn" class="md:hidden w-9 h-9 rounded-full dark:bg-white/5 bg-purple-100 flex items-center justify-center dark:text-white text-purple-900" aria-label="Menu">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden mt-4 dark:bg-[#130920]/95 bg-white/95 rounded-2xl border dark:border-white/10 border-purple-100 backdrop-blur-lg overflow-hidden">
+    <div class="flex flex-col p-4 gap-1">
+      <a href="#about" class="px-4 py-2.5 rounded-xl dark:text-purple-200 text-purple-800 hover:bg-orange-500/10 font-medium text-sm transition-all">About</a>
+      <a href="#gallery" class="px-4 py-2.5 rounded-xl dark:text-purple-200 text-purple-800 hover:bg-orange-500/10 font-medium text-sm transition-all">Gallery</a>
+      <a href="#categories" class="px-4 py-2.5 rounded-xl dark:text-purple-200 text-purple-800 hover:bg-orange-500/10 font-medium text-sm transition-all">Categories</a>
+      <a href="#videos" class="px-4 py-2.5 rounded-xl dark:text-purple-200 text-purple-800 hover:bg-orange-500/10 font-medium text-sm transition-all">Videos</a>
+      <a href="#featured" class="px-4 py-2.5 rounded-xl dark:text-purple-200 text-purple-800 hover:bg-orange-500/10 font-medium text-sm transition-all">Featured</a>
+      <a href="#contact" class="px-4 py-2.5 rounded-xl dark:text-purple-200 text-purple-800 hover:bg-orange-500/10 font-medium text-sm transition-all">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ HERO SECTION ═══════════ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="particleCanvas"></canvas>
+  <div class="hero-content">
+    <div class="hero-badge">✦ Traditional Indian Art ✦</div>
+    <h1 class="hero-title">Explore the Art<br/>of Rangoli</h1>
+    <p class="hero-sub">A vibrant celebration of colors, patterns, and culture — brought to you through centuries of tradition</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <a href="#gallery" class="hero-cta">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        View Gallery
+      </a>
+      <a href="#about" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-full border border-white/30 text-white/90 font-medium hover:bg-white/10 transition-all text-sm">
+        Learn More
+      </a>
+    </div>
+    <!-- Scroll indicator -->
+    <div class="mt-16 flex flex-col items-center gap-2 opacity-50">
+      <span class="text-white text-xs tracking-widest uppercase">Scroll</span>
+      <div class="w-px h-10 bg-gradient-to-b from-white to-transparent"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ ABOUT SECTION ═══════════ -->
+<section id="about" class="py-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="section-label">Our Story</span>
+      <h2 class="section-title">What is Rangoli?</h2>
+      <div class="section-line mx-auto"></div>
+    </div>
+    <div class="grid md:grid-cols-2 gap-14 items-center">
+      <div class="reveal">
+        <p class="dark:text-purple-200 text-purple-900 text-lg leading-relaxed mb-4">
+          <span class="text-orange-400 font-bold">Rangoli</span> is one of the oldest Indian art forms, traditionally created on floors during festivals and special occasions. The word comes from Sanskrit — <em>"Rang"</em> (color) and <em>"Aavalli"</em> (row of colors).
+        </p>
+        <p class="dark:text-purple-300/80 text-purple-700/80 leading-relaxed mb-6">
+          It is an expression of joy, beauty, and auspiciousness drawn during festivals like Diwali, Onam, Navratri, and Pongal. Each region of India has its own style — from Kerala's Onam Pookalam to Tamil Nadu's Kolam.
+        </p>
+        <div class="flex items-center gap-4">
+          <div class="text-center">
+            <p class="text-3xl font-bold text-orange-400">5000+</p>
+            <p class="text-xs dark:text-purple-400 text-purple-600 uppercase tracking-widest">Years Old</p>
+          </div>
+          <div class="w-px h-10 dark:bg-white/10 bg-purple-200"></div>
+          <div class="text-center">
+            <p class="text-3xl font-bold text-pink-400">28+</p>
+            <p class="text-xs dark:text-purple-400 text-purple-600 uppercase tracking-widest">Regional Styles</p>
+          </div>
+          <div class="w-px h-10 dark:bg-white/10 bg-purple-200"></div>
+          <div class="text-center">
+            <p class="text-3xl font-bold text-yellow-400">∞</p>
+            <p class="text-xs dark:text-purple-400 text-purple-600 uppercase tracking-widest">Patterns</p>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 gap-4 reveal">
+        <div class="glass-card p-6">
+          <div class="about-icon">🎨</div>
+          <h3 class="font-semibold dark:text-white text-purple-900 mb-1">Vibrant Colors</h3>
+          <p class="text-sm dark:text-purple-300/70 text-purple-700/70">Made from natural materials like flower petals, colored sand, turmeric, and rice flour</p>
+        </div>
+        <div class="glass-card p-6 mt-6">
+          <div class="about-icon">🪔</div>
+          <h3 class="font-semibold dark:text-white text-purple-900 mb-1">Festival Art</h3>
+          <p class="text-sm dark:text-purple-300/70 text-purple-700/70">Traditionally created during Diwali, Onam, Pongal and other auspicious occasions</p>
+        </div>
+        <div class="glass-card p-6">
+          <div class="about-icon">🔯</div>
+          <h3 class="font-semibold dark:text-white text-purple-900 mb-1">Sacred Geometry</h3>
+          <p class="text-sm dark:text-purple-300/70 text-purple-700/70">Intricate geometric patterns inspired by mandalas and sacred Hindu symbols</p>
+        </div>
+        <div class="glass-card p-6 mt-6">
+          <div class="about-icon">🌸</div>
+          <h3 class="font-semibold dark:text-white text-purple-900 mb-1">Living Tradition</h3>
+          <p class="text-sm dark:text-purple-300/70 text-purple-700/70">Passed down through generations — evolving from ancient ritual to modern art form</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CATEGORIES SECTION ═══════════ -->
+<section id="categories" class="py-24 px-6 dark:bg-white/[0.02] bg-purple-50/60">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <span class="section-label">Explore Styles</span>
+      <h2 class="section-title">Rangoli Categories</h2>
+      <div class="section-line mx-auto"></div>
+      <p class="dark:text-purple-300/70 text-purple-700/70 mt-4 max-w-xl mx-auto text-sm">Click any category to filter the gallery and explore its designs</p>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+      <div class="cat-card reveal" data-cat="festival">
+        <div class="cat-tag">🪔 Festival</div>
+        <img src="images/diwali.png" alt="Diwali Rangoli" loading="lazy" />
+        <div class="cat-overlay">
+          <h3>Diwali Rangoli</h3>
+          <p>Festival of Lights designs</p>
+        </div>
+      </div>
+      <div class="cat-card reveal" data-cat="simple">
+        <div class="cat-tag">✦ Simple</div>
+        <img src="images/simple.png" alt="Simple Rangoli" loading="lazy" />
+        <div class="cat-overlay">
+          <h3>Simple Rangoli</h3>
+          <p>Easy & elegant patterns</p>
+        </div>
+      </div>
+      <div class="cat-card reveal" data-cat="flower">
+        <div class="cat-tag">🌸 Floral</div>
+        <img src="images/flower.png" alt="Flower Rangoli" loading="lazy" />
+        <div class="cat-overlay">
+          <h3>Flower Rangoli</h3>
+          <p>Petal & bloom designs</p>
+        </div>
+      </div>
+      <div class="cat-card reveal" data-cat="modern">
+        <div class="cat-tag">⚡ Modern</div>
+        <img src="images/modern.png" alt="Modern Rangoli" loading="lazy" />
+        <div class="cat-overlay">
+          <h3>Modern Designs</h3>
+          <p>Contemporary art fusion</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ GALLERY SECTION ═══════════ -->
+<section id="gallery" class="py-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <span class="section-label">Art Gallery</span>
+      <h2 class="section-title">Design Showcase</h2>
+      <div class="section-line mx-auto"></div>
+    </div>
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-3 mb-10 reveal">
+      <button class="filter-btn active-filter" data-filter="all">All Designs</button>
+      <button class="filter-btn" data-filter="festival">Festival</button>
+      <button class="filter-btn" data-filter="simple">Simple</button>
+      <button class="filter-btn" data-filter="modern">Modern</button>
+      <button class="filter-btn" data-filter="traditional">Traditional</button>
+      <button class="filter-btn" data-filter="flower">Floral</button>
+    </div>
+    <!-- Gallery Grid -->
+    <div id="galleryGrid">
+      <div class="gallery-item reveal" data-category="festival" data-title="Diwali Mandala" data-desc="Traditional Diwali Rangoli with oil lamp accents">
+        <img src="images/diwali.png" alt="Diwali Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Diwali Mandala</h3><span>Festival • Traditional</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="simple" data-title="Simple Floral" data-desc="Minimalist symmetrical flower pattern">
+        <img src="images/simple.png" alt="Simple Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Simple Floral</h3><span>Simple • Elegant</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="modern" data-title="Modern Geometric" data-desc="Contemporary abstract mandala with gradient colors">
+        <img src="images/modern.png" alt="Modern Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Modern Geometric</h3><span>Modern • Abstract</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="flower" data-title="Lotus Petal Circle" data-desc="Intricate lotus and marigold petal arrangement">
+        <img src="images/flower.png" alt="Flower Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Lotus Petal Circle</h3><span>Floral • Vibrant</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="traditional" data-title="Kolam Geometry" data-desc="South Indian Pulli Kolam with chalk patterns">
+        <img src="images/traditional.png" alt="Traditional Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Kolam Geometry</h3><span>Traditional • South Indian</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="festival" data-title="Peacock Dance" data-desc="Peacock made from colored powder and flower petals">
+        <img src="images/peacock.png" alt="Peacock Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Peacock Dance</h3><span>Festival • Artistic</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="festival" data-title="Navratri Spectrum" data-desc="Nine-color celebration rangoli for Navratri">
+        <img src="images/navratri.png" alt="Navratri Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Navratri Spectrum</h3><span>Festival • Colorful</span></div>
+      </div>
+      <div class="gallery-item reveal" data-category="traditional" data-title="Sacred Mandala" data-desc="Classic mandala pattern based on ancient designs">
+        <img src="images/hero.png" alt="Hero Rangoli" loading="lazy" />
+        <div class="gallery-overlay"><h3>Sacred Mandala</h3><span>Traditional • Spiritual</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ VIDEO SHOWCASE ═══════════ -->
+<section id="videos" class="py-24 px-6 dark:bg-white/[0.02] bg-purple-50/60">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <span class="section-label">Video Tutorials</span>
+      <h2 class="section-title">Watch Rangoli Being Made</h2>
+      <div class="section-line mx-auto"></div>
+      <p class="dark:text-purple-300/70 text-purple-700/70 mt-4 max-w-xl mx-auto text-sm">Step-by-step video guides to create beautiful Rangoli at home</p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+      <!-- Video 1 -->
+      <div class="glass-card overflow-hidden reveal">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/SadgQIkPxrg?rel=0" title="Diwali Rangoli Tutorial" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="p-5">
+          <span class="text-xs text-orange-400 font-semibold uppercase tracking-widest">Festival</span>
+          <h3 class="dark:text-white text-purple-900 font-semibold mt-1">Diwali Rangoli Tutorial</h3>
+          <p class="text-sm dark:text-purple-300/60 text-purple-700/60 mt-1">Easy step-by-step Diwali design guide</p>
+        </div>
+      </div>
+      <!-- Video 2 -->
+      <div class="glass-card overflow-hidden reveal">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/AdbNkLJ8VoI?rel=0" title="Flower Rangoli Tutorial" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="p-5">
+          <span class="text-xs text-pink-400 font-semibold uppercase tracking-widest">Floral</span>
+          <h3 class="dark:text-white text-purple-900 font-semibold mt-1">Flower Petal Rangoli</h3>
+          <p class="text-sm dark:text-purple-300/60 text-purple-700/60 mt-1">Create beautiful flower petal designs</p>
+        </div>
+      </div>
+      <!-- Video 3 -->
+      <div class="glass-card overflow-hidden reveal">
+        <div class="video-card">
+          <iframe src="https://www.youtube.com/embed/X5F7GI8btMI?rel=0" title="Modern Rangoli Tutorial" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="p-5">
+          <span class="text-xs text-purple-400 font-semibold uppercase tracking-widest">Modern</span>
+          <h3 class="dark:text-white text-purple-900 font-semibold mt-1">Modern Geometric Rangoli</h3>
+          <p class="text-sm dark:text-purple-300/60 text-purple-700/60 mt-1">Contemporary fusion Rangoli design</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FEATURED CAROUSEL ═══════════ -->
+<section id="featured" class="py-24 px-6 overflow-hidden">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <span class="section-label">Editor's Pick</span>
+      <h2 class="section-title">Featured Designs</h2>
+      <div class="section-line mx-auto"></div>
+    </div>
+    <div class="relative glass-card overflow-hidden reveal" style="min-height:420px;">
+      <!-- Slides -->
+      <div class="carousel-slide opacity-100 absolute inset-0">
+        <img src="images/peacock.png" alt="Featured Peacock" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent flex items-center">
+          <div class="p-10 max-w-lg">
+            <span class="text-orange-400 text-xs font-semibold uppercase tracking-widest">⭐ Featured Design</span>
+            <h3 class="text-white text-3xl font-bold mt-2 font-['Playfair_Display']">The Majestic Peacock</h3>
+            <p class="text-white/70 mt-3 text-sm leading-relaxed">A breathtaking creation using natural flower petals and colored powder, symbolizing grace and beauty</p>
+            <button class="mt-5 px-6 py-2.5 rounded-full text-sm font-semibold text-white" style="background:linear-gradient(135deg,#f97316,#ec4899)">View Design →</button>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide opacity-0 absolute inset-0">
+        <img src="images/navratri.png" alt="Featured Navratri" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent flex items-center">
+          <div class="p-10 max-w-lg">
+            <span class="text-yellow-400 text-xs font-semibold uppercase tracking-widest">⭐ Festival Special</span>
+            <h3 class="text-white text-3xl font-bold mt-2 font-['Playfair_Display']">Navratri Nine Colors</h3>
+            <p class="text-white/70 mt-3 text-sm leading-relaxed">Celebrating nine nights of the goddess with nine magnificent colors woven into sacred geometry</p>
+            <button class="mt-5 px-6 py-2.5 rounded-full text-sm font-semibold text-white" style="background:linear-gradient(135deg,#facc15,#a855f7)">View Design →</button>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-slide opacity-0 absolute inset-0">
+        <img src="images/traditional.png" alt="Featured Traditional" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-transparent flex items-center">
+          <div class="p-10 max-w-lg">
+            <span class="text-cyan-400 text-xs font-semibold uppercase tracking-widest">⭐ Traditional Art</span>
+            <h3 class="text-white text-3xl font-bold mt-2 font-['Playfair_Display']">Sacred Kolam Pattern</h3>
+            <p class="text-white/70 mt-3 text-sm leading-relaxed">The ancient South Indian Kolam tradition, drawn at dawn to invite prosperity and positive energy</p>
+            <button class="mt-5 px-6 py-2.5 rounded-full text-sm font-semibold text-white" style="background:linear-gradient(135deg,#06b6d4,#a855f7)">View Design →</button>
+          </div>
+        </div>
+      </div>
+      <!-- Controls -->
+      <button id="prevSlide" class="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur text-white flex items-center justify-center hover:bg-orange-500 transition-all z-10">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button id="nextSlide" class="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/40 backdrop-blur text-white flex items-center justify-center hover:bg-orange-500 transition-all z-10">
+        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+      <!-- Dots -->
+      <div class="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+        <button class="carousel-dot w-6 h-10px bg-orange-500" aria-label="Slide 1"></button>
+        <button class="carousel-dot w-3 bg-white/40" aria-label="Slide 2"></button>
+        <button class="carousel-dot w-3 bg-white/40" aria-label="Slide 3"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT SECTION ═══════════ -->
+<section id="contact" class="py-24 px-6 dark:bg-white/[0.02] bg-purple-50/60">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <span class="section-label">Get In Touch</span>
+      <h2 class="section-title">Contact Us</h2>
+      <div class="section-line mx-auto"></div>
+      <p class="dark:text-purple-300/70 text-purple-700/70 mt-4 text-sm">Have a question or want to share your Rangoli? We'd love to hear from you!</p>
+    </div>
+    <div class="glass-card p-8 md:p-12 reveal">
+      <form id="contactForm" novalidate>
+        <div class="grid md:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label for="fname" class="block text-sm font-medium dark:text-purple-200 text-purple-800 mb-2">Full Name</label>
+            <input id="fname" type="text" placeholder="Your Name" class="form-field" />
+          </div>
+          <div>
+            <label for="femail" class="block text-sm font-medium dark:text-purple-200 text-purple-800 mb-2">Email Address</label>
+            <input id="femail" type="email" placeholder="you@example.com" class="form-field" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label for="fmessage" class="block text-sm font-medium dark:text-purple-200 text-purple-800 mb-2">Message</label>
+          <textarea id="fmessage" rows="5" placeholder="Share your thoughts or ask a question…" class="form-field resize-none"></textarea>
+        </div>
+        <div id="formError" class="hidden mb-4 px-4 py-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-400 text-sm"></div>
+        <div id="formSuccess" class="hidden mb-4 px-4 py-3 rounded-xl bg-green-500/15 border border-green-500/30 text-green-400 text-sm">🎉 Thank you! Your message has been sent successfully.</div>
+        <button type="submit" class="submit-btn w-full md:w-auto">Send Message ✉️</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer id="footer" class="py-14 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-4 gap-10 mb-12">
+      <!-- Brand -->
+      <div class="md:col-span-2">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style="background:linear-gradient(135deg,#f97316,#a855f7)">🪷</div>
+          <span class="text-2xl font-bold text-white font-['Playfair_Display']">Rangoli<span class="text-orange-400">Art</span></span>
+        </div>
+        <p class="text-white/50 text-sm leading-relaxed max-w-xs">Celebrating 5000+ years of India's most vibrant art form. Explore, learn, and be inspired.</p>
+        <div class="flex gap-3 mt-6">
+          <a href="#" class="social-icon" aria-label="Facebook">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Instagram">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="YouTube">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.54C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white"/></svg>
+          </a>
+          <a href="#" class="social-icon" aria-label="Pinterest">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/></svg>
+          </a>
+        </div>
+      </div>
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Quick Links</h4>
+        <ul class="space-y-2">
+          <li><a href="#about" class="footer-link">About Rangoli</a></li>
+          <li><a href="#gallery" class="footer-link">Gallery</a></li>
+          <li><a href="#categories" class="footer-link">Categories</a></li>
+          <li><a href="#videos" class="footer-link">Video Tutorials</a></li>
+          <li><a href="#featured" class="footer-link">Featured Designs</a></li>
+        </ul>
+      </div>
+      <!-- Categories -->
+      <div>
+        <h4 class="text-white font-semibold mb-4">Categories</h4>
+        <ul class="space-y-2">
+          <li><a href="#gallery" class="footer-link">Festival Rangoli</a></li>
+          <li><a href="#gallery" class="footer-link">Simple Patterns</a></li>
+          <li><a href="#gallery" class="footer-link">Flower Designs</a></li>
+          <li><a href="#gallery" class="footer-link">Modern Art</a></li>
+          <li><a href="#gallery" class="footer-link">Traditional Kolam</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-white/40 text-sm">© 2025 RangoliArt Showcase. All rights reserved.</p>
+      <p class="text-white/30 text-xs">Made with ❤️ to celebrate Indian culture</p>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
